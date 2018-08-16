@@ -1,7 +1,7 @@
 % UNALCE.m carries out UNALCE computational routine, introduced in
 %   
-% Farnè, M. and Montanari, A. (2017), 'A finite sample estimator 
-% for large covariance matrices'.
+% FarnÃ¨, M. and Montanari, A. (2018), 'A finite sample estimator 
+% of large covariance matrices under intermediate spikiness regimes'.
 %
 % The INPUT arguments are: 
 % 'C': an input covariance matrix estimator (usually the sample one).
@@ -9,7 +9,7 @@
 % 'rho': a vector of sparsity threshold parameters.
 % 'UNALCE': defaults to 1. If set to another value, 
 % it performs LOREC routine (Luo, 2013).
-% 'th_ind': 1 if the theoretical parameters are known, 0 otherwise.
+% 'th_ind': 1 if theoretical parameters are known, 0 otherwise.
 % 'A': the true sparse component, if known.
 % 'B': the true low rank component, if known.
 % 'Sigma': the true covariance matrix, if known.
@@ -19,7 +19,7 @@
 % 'S': the estimated sparse component.
 % 'Sigma': the estimated covariance matrix.
 % 'lambda_opt': the optimal spikiness threshold selected 
-% by the Maximum Criterion MC (Farnè and Montanari, 2017).
+% by the Maximum Criterion MC (FarnÃ¨ and Montanari, 2018).
 % 'rho_opt': the optimal sparsity threshold selected by MC.
 % 'rank': the estimated low rank. 
 % 'non-zeros percentage': the estimated percentage of non-zeros.
@@ -39,6 +39,11 @@ function[Out_UNALCE]=UNALCE(C,lambda,rho,UNALCE,th_ind,A,B,Sigma)
     M_orig=C;
     M_star=C;
 
+%% start loop in lambda and rho
+
+    for t1=1:length(rho) 
+    for t2=1:length(lambda)
+        
     k=1;
     arr=zeros(1,N_max);
     al=zeros(1,N_max);
@@ -52,11 +57,6 @@ function[Out_UNALCE]=UNALCE(C,lambda,rho,UNALCE,th_ind,A,B,Sigma)
     E=zeros(p,p);
     Y=L_Thr;
     Z=S_Thr;
-
-%% start loop in lambda and rho
-
-    for t1=1:length(rho) 
-    for t2=1:length(lambda)
 
 %% start minimization loop
 while k<N_max && abs(criterion(k))>1.0e-02
@@ -117,8 +117,8 @@ while k<N_max && abs(criterion(k))>1.0e-02
 
 	%% update L and S	
     al(k)=(1+sqrt(1+4*al(k-1)^2))/2;
-    Y=L_Thr+((al(k)-1)/al(k-1))*(L_Thr-L_pre);
-    Z=S_Thr+((al(k)-1)/al(k-1))*(S_Thr-S_pre);
+    Y=L_Thr+((al(k-1)-1)/al(k))*(L_Thr-L_pre);
+    Z=S_Thr+((al(k-1)-1)/al(k))*(S_Thr-S_pre);
 end;
 %% end minimization loop
 
@@ -336,17 +336,17 @@ end;
 	%% model selection criterion
     
     scale(t1,t2)=rho(t1)/lambda(t2);   
-    OB_pond_yes(t1,t2)=max(linf_s(t1,t2)/(scale(t1,t2)*(1-rappvar(t1,t2))*trace(M)),(rank_Thr(t1,t2)*l2_s(t1,t2))/(trace(M)*rappvar(t1,t2)));
+    OB_pond_yes(t1,t2)=max(linf_s(t1,t2)/(scale(t1,t2)*(1-rappvar(t1,t2))),(rank_Thr(t1,t2)*l2_s(t1,t2))/(rappvar(t1,t2)));
     difflinfyes(t1,t2)=OB_pond_yes(t1,t2)-linf_s(t1,t2)/(scale(t1,t2)*(1-rappvar(t1,t2))*trace(M));
     diffl2yes(t1,t2)=OB_pond_yes(t1,t2)-(rank_Thr(t1,t2)*l2_s(t1,t2))/(trace(M)*rappvar(t1,t2));
    
     end;
     end;
     
-    [minmin1 ind_1]=min(OB_pond_yes)
-    [minmin2 ind_2]=min(min(OB_pond_yes))
-    fin1=ind_1(ind_2)
-    fin2=ind_2    
+    [minmin1 ind_1]=min(OB_pond_yes);
+    [minmin2 ind_2]=min(min(OB_pond_yes));
+    fin1=ind_1(ind_2);
+    fin2=ind_2;    
 
 Out_UNALCE=cell(1,18);
 
