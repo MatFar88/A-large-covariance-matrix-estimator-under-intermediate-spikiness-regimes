@@ -2,7 +2,7 @@
 %   
 % Fan, J, Liao, Y., and Mincheva, M. (2013), 'Large covariance estimation by thresholding
 % principal orthogonal complements'. Journal of the Royal Statistical Society: Series B
-% (Statistical Methodology), 75(4):603–680.
+% (Statistical Methodology), 75(4):603â€“680.
 %
 % The INPUT arguments are: 
 % 'z': an input data matrix nxp (n objects p variables).
@@ -13,9 +13,9 @@
 % 'H': the number of folds for cross-validation.
 % 'ad': defaults to 1, in which case it performs adaptive thresholding 
 % (Fan et al., 2013). If set to 0, constant thresholding is performed.
-% 'hard': defaults to 1, in case which it performs hard thresholding. 
+% 'hard': defaults to 1, in which case it performs hard thresholding. 
 % It should be set to 0 if soft thresholding is desired.
-% 'th_ind': 1 if the theoretical parameters are known, 0 otherwise.
+% 'th_ind': 1 if theoretical parameters are known, 0 otherwise.
 % 'A': the true sparse component, if known.
 % 'B': the true low rank component, if known.
 % 'Sigma': the true covariance matrix, if known.
@@ -24,7 +24,7 @@
 % 'L': the estimated low rank component.
 % 'S': the estimated sparse component.
 % 'Sigma': the estimated covariance matrix.
-% 'rho_opt': the optimal cross-validtation constant for sparsity threshold selection.
+% 'rho_opt': the optimal cross-validated constant for sparsity threshold selection.
 % 'non-zeros percentage': the estimated percentage of non-zeros.
 % 'latent variance percentage': the estimated percentage of latent variance.
 % 'residual covariance percentage': the estimated percentage of residual
@@ -42,7 +42,7 @@ ad=1;
 hard=1;
 
 if th_ind==1
-    r=rank(B)
+    r=rank(B);
 else
     r=r_thr;
 end
@@ -166,7 +166,7 @@ TL_CV_C(t1,h)=norm(S_C(:,:,t1,h)-SSS(:,:,h),'fro')^2;
 defSpS_C(t1,h)=sum(eig((S_C(:,:,t1,h)))<0);
 defSpSigma_C(t1,h)=sum(eig((Sigma_C(:,:,t1,h)))<0);
 end;
-H
+H;
 %it
 end;
 end
@@ -180,17 +180,17 @@ rappcorrmean_C(t1)=mean(rappcorr_C(t1,:));
 end;
 %end
 
-crit_C=crit_C(1:length(const))
-defSpmean_C=defSpmean_C(1:length(const))
+crit_C=crit_C(1:length(const));
+defSpmean_C=defSpmean_C(1:length(const));
 if CV_ind==1
 [critminC1 ind_1]=min(crit_C(defSpmean_C==0));
 [critminminC ind_2]=min(min(crit_C(defSpmean_C==0)));
-critminminC
-nd=find(crit_C==critminminC)
-ind=nd(1)
+critminminC;
+nd=find(crit_C==critminminC);
+ind=nd(1);
 end;
-rhoFan2=const(ind)
-ind
+rhoFan2=const(ind);
+ind;
 Ind=ind;
 
 [U_C,D_C]=svds(M,r);
