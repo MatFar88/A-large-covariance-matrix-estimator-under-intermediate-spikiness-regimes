@@ -1,7 +1,7 @@
 % UNALCE.m carries out UNALCE computational routine, introduced in
 %   
-% FarnÃ¨, M. and Montanari, A. (2018), 'A finite sample estimator 
-% of large covariance matrices under intermediate spikiness regimes'.
+% Farnè, M. and Montanari, A. (2018), 'A large covariance matrix estimator
+% under intermediate spikiness regimes'. arXiv:1711.08950.
 %
 % The INPUT arguments are: 
 % 'C': an input covariance matrix estimator (usually the sample one).
@@ -19,7 +19,7 @@
 % 'S': the estimated sparse component.
 % 'Sigma': the estimated covariance matrix.
 % 'lambda_opt': the optimal spikiness threshold selected 
-% by the Maximum Criterion MC (FarnÃ¨ and Montanari, 2018).
+% by the Maximum Criterion MC (Farnè and Montanari, 2018).
 % 'rho_opt': the optimal sparsity threshold selected by MC.
 % 'rank': the estimated low rank. 
 % 'non-zeros percentage': the estimated percentage of non-zeros.
