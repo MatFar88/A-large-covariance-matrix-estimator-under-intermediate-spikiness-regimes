@@ -11,6 +11,8 @@
 % in Vichi, M., & Kiers, H. A. (2001). Factorial k-means analysis for two-way data. 
 % Computational Statistics & Data Analysis, 37(1), 49-64.
 %
+% It requires tfkm_rob function.
+%
 % The INPUT arguments are: 
 % z: n (objects) times p (variables) data matrix .
 % alpha_all: vector of allowed proportions of outliers. 
