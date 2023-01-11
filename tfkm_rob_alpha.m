@@ -41,9 +41,9 @@
 % n_out_tfkm: number of identified outliers.
 % member: the vector of group membership (without excluding outliers).
 % group_comp: clusters' size (without excluding outliers).
-% model_select: 1 if r and c have been selected by Hartigan's statistic, 
+% model_select: 1 if r and c have been selected by Hartigan's statistimemberc, 
 % 0 otherwise
-% H: if model_select=1, the matrix of Hartigan statistics for each r-c pair 
+% H_all: if model_select=1, the matrix of Hartigan statistics for each r-c pair 
 % such that r<=c-1.
 
 function[output_all]=tfkm_rob_alpha(z,alpha_all,r_all,g_all,cov_yes,r_G,N)
@@ -67,13 +67,13 @@ for out_prop=1:length(alpha_all)
 
     out_prop
     
-    if iscell(output_all)==0
-       return; 
-    else 
+    if iscell(output_all)~=0
+       %return; 
+    %else 
         %if output_all{1,15}==0
         %    return;
         %else
-        Hartigan_all(out_prop)=output_all{27}(output_all{7},output_all{9});
+        H_all(out_prop)=output_all{27}(output_all{7},output_all{9});
         %=Hartigan(output_all{1,17},output_all{1,19});
         rank_all(out_prop)=output_all{7};
         cluster_all(out_prop)=output_all{9};
@@ -82,10 +82,16 @@ for out_prop=1:length(alpha_all)
 end
 end
 
-[max2 ii1]=max(Hartigan_all)
+[max2 ii1]=max(H_all)
+if length(H_all)>0 && max2>10
 i1=rank_all(ii1)
 i2=cluster_all(ii1)
 alpha=alpha_all(ii1)
+else 
+    i1=rank_all(1)
+    i2=rank_all(1)+1
+    alpha=0
+end
 
 %%
 
@@ -94,7 +100,7 @@ alpha=alpha_all(ii1)
 %end
 
 if alpha==0%%~exist('robust','var') &&
-    robust=0;
+   robust=0;
 end
 
 if ne(alpha,0)==1%%~exist('robust','var') && 
@@ -480,7 +486,8 @@ end
 
    r_yes=i1;
    g_yes=i2;
+   alpha_yes=alpha;
 
 model_select=1;
 
-output_all={fac_scores,'factor_scores',U_G_opt,'eigenvectors',Y_bar_opt,'centroids',r_yes,'optimal_rank',g_yes,'optimal_cluster_number',alpha,'optimal_alpha',member_no,'member_no',group_num,'group_num',out_tfkm,'out_tfkm',n_out_tfkm,'n_out_tfkm',member,'member',group_comp,'group_comp',model_select,'model_select',H,'Hartigan'}
+output_all={fac_scores,'factor_scores',U_G_opt,'eigenvectors',Y_bar_opt,'centroids',r_yes,'optimal_rank',g_yes,'optimal_cluster_number',alpha_yes,'optimal_alpha',member_no,'member_no',group_num,'group_num',out_tfkm,'out_tfkm',n_out_tfkm,'n_out_tfkm',member,'member',group_comp,'group_comp',model_select,'model_select',H_all,'Hartigan_all'}

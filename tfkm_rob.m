@@ -442,7 +442,7 @@ end
         end                        
     end
 
-    W(i1,i2)=sqrt(sum(reshape(diff_scores,[],1)));
+    W(i1,i2)=(sum(reshape(diff_scores,[],1)));%sqrt
 
     else W(i1,i2)=0;
 
@@ -827,6 +827,8 @@ obob(number)=ob_post;
 diffdiff(number)=diff;
 end
 else diff=-1;
+    output_all=strcat('There is at least one void group in the recovered solution.')
+    return;
 end
 end
 end
