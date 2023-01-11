@@ -88,6 +88,30 @@ i2=cluster_all(ii1)
 alpha=alpha_all(ii1)
 
 %%
+
+%if ~exist('alpha','var')
+%    alpha=0.1;
+%end
+
+if alpha==0%%~exist('robust','var') &&
+    robust=0;
+end
+
+if ne(alpha,0)==1%%~exist('robust','var') && 
+    robust=1;
+end
+
+n=size(z,1);%%number of objects
+p=size(z,2);%%number of variables
+
+if cov_yes==1
+    %%covariance matrix
+    C=robustcov(z);
+else
+    %%correlation matrix
+    C=corrcov(robustcov(z));
+end
+
 % OPTIMAL SOLUTION IMPLEMENTATION
 % Set the optimal rank
 [U_r, D_r]=svds(C,i1);
